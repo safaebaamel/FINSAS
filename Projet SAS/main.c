@@ -3,6 +3,8 @@
 #include <string.h>
 
 int global_n_pres, global_n_voters;
+float voting_pourc;
+// vote*100/global_n_pres >= 15
 
 typedef struct votemachine{
     char tab[10];
@@ -13,6 +15,7 @@ typedef struct presidents{
     int votec;
     char id[10];
     char name[20];
+    int status;
 }presidents;
 
 struct presidents president[20];
@@ -115,10 +118,40 @@ void    ft_colvotes() {
 
  void   ft_firsttour()
  {
-     int i, j;
+    // in this function, we'll go through all the votes, calculate those with less than 15% of the total votes
+    int i, check;
 
-     
+    check = 0;
+    
+    voting_pourc = (president[i].votec * 100) / global_n_pres;
+    // calculating the pourcentage of the vote in each 
+    for (i = 0; i global_n_pres; i++) { 
+        if (president[i].votec == (global_n_voters/global_n_pres)) {
+                check++;
+        }
+    }
+    if (check == global_n_pres) {
+        printf("[|POURCENTAGE OF VOTES ARE EQUAL|]\n");
+        return;
+    }
+
+    for (i = 0; i < global_n_pres; i++) {
+        if (voting_pourc >= 15) {
+            president[i].status = 1;
+            printf("\nCongrats for the president: %s with the ID: %d\nSee you in round 2!\n", president[i].name, i);
+        } else {
+            printf("\nSorry, try next time\n");
+            president[i].status = 0;
+        } 
+    }
  }
+
+void    ft_secondtour()
+{
+    int i;
+
+    
+}
 
 
 /* int    ft_isalpha(char *s)
@@ -165,7 +198,7 @@ printf("************************************************************************
 }
 
 int	main() {
-    int n, m, i, j;
+    // int n, m, i, j;
 
     
     interfacedelapp();
@@ -180,5 +213,8 @@ int	main() {
     printf("\n");
     printf("---------------------------");
     ft_colvotes();
+    printf("---------------------------");
+    printf("\n");
+
     return 0;
 }
