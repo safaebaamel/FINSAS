@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <windows.h>
+// #include <windows.h>
 
 int global_n_pres, global_n_voters;
 float voting_pourc;
@@ -48,19 +48,18 @@ void    ft_adding_presidents() {
     global_n_pres = subm_pres;
     // global_n_pres = subm_pres;
 
-    // status == 1 from first tour
-    for (j = 0; j < global_n_pres; i++) {
-        president[i].status = 1;
-    }
-
+    printf("---------------------------------\n");
     printf("This year!! We have %d nominees!!\n", subm_pres);
     printf("Good luck for you all :)!\n");
+    printf("---------------------------------\n");
 
     // The list of the presidents with their ids and names
     // free(president);
 
     for (i = 0; i < subm_pres; i++) {
         printf("Name: %s -- ID: %d\n", president[i].name, i);
+        president[i].status = 1;
+    // status == 1 from first tour
     }
 }
 
@@ -95,7 +94,7 @@ void    ft_adding_voters() {
     // free(voter);
     
     for (i = 0; i < subm_voters; i++) {
-        printf("Name: %s -- ID: %s\n", voter[i].name, voter[i].cin);
+        printf("\nName: %s -- ID: %s\n", voter[i].name, voter[i].cin);
     }
 }
 
@@ -114,7 +113,7 @@ void    ft_colvotes() {
 
     printf("\nTime for collecting votes!\n");
     printf("--------------------------\n");
-    printf("\nChoose from the list below!!\n                         [WARNING]: MAKE SURE TO CHECK YOUR ANSWER BEFORE SUBMITING!\n");
+    printf("\nChoose from the list below!!\t[WARNING]: MAKE SURE TO CHECK YOUR ANSWER BEFORE SUBMITING!\n");
     for (i = 0; i < global_n_pres; i++) {
         if (president[i].status == 1) {
             printf("NAME: %s -- ID: %d\n", president[i].name, i);
@@ -140,7 +139,7 @@ void    ft_colvotes() {
 
     check = 0;
     
-    voting_pourc = (president[i].votec * 100) / global_n_pres;
+    // voting_pourc = (president[i].votec * 100) / global_n_pres;
     // calculating the pourcentage of the vote in each 
     for (i = 0; i < global_n_pres; i++) {
         if (president[i].votec == (global_n_voters/global_n_pres)) {
@@ -153,14 +152,15 @@ void    ft_colvotes() {
     }
 
     for (i = 0; i < global_n_pres; i++) {
-        if (voting_pourc >= 15) {
+        if ((president[i].votec * 100) / global_n_pres >= 15) {
             president[i].status = 0;
             printf("\nCongrats for the president: %s with the ID: %d\nSee you in round 2!\n", president[i].name, i);
         } else {
-            printf("\nSorry, try next time\n");
+            printf("\nnominee %s :Sorry, try next time\n", president[i].name);
             president[i].status = 1;
         } 
     }
+    
  }
 
 void    ft_minfunct() //get the min pres to be eliminated
@@ -238,7 +238,7 @@ void interfacedelapp(){
     printf("* *                                                                                                          * *\n");
     printf("* ************************************************************************************************************ *\n");
     printf("************************************************************************************************************** *\n");
-
+/*
     printf("Go ahead and choose one of the above\n");
 
     switch (expression)
@@ -272,6 +272,7 @@ void interfacedelapp(){
         return;
         break;
     }
+    */
 }
 
 int	main() {
