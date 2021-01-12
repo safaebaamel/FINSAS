@@ -1,9 +1,13 @@
-#include "election.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-int global_n_pres;
+int global_n_pres, global_n_voters;
+
+typedef struct votemachine{
+    char tab[10];
+    int action;
+} votemachine;
 
 typedef struct presidents{
     int votec;
@@ -16,7 +20,8 @@ struct presidents president[20];
 typedef struct voters {
     char cin[20];
     char name[20];
-    short vote, voteCount;
+    int vote;
+    struct votemachine v;
 }voters;
 
 struct voters voter[20];
@@ -36,7 +41,7 @@ void    ft_adding_presidents() {
         scanf("%s", &*president[i].name);
         printf("The ID of the president: %d\n", i);
     }
-
+    global_n_pres = subm_pres;
     // global_n_pres = subm_pres;
 
     printf("This year!! We have %d nominees!!\n", subm_pres);
@@ -59,6 +64,8 @@ void    ft_adding_voters() {
         scanf("%d", &subm_voters);
     } while (subm_voters < 10);
 
+    global_n_voters = subm_voters;
+
     printf("STARTING THE SUBMIT!!!\n");
     for (i = 0; i < subm_voters; i++) 
     {
@@ -69,8 +76,11 @@ void    ft_adding_voters() {
     }
 
     // global_n_pres = subm_pres;
+    printf("\n");
+    printf("----------------------------------");
+    printf("\nThis year!! We have %d voters!!\n", subm_voters);
+    printf("----------------------------------");
 
-    printf("This year!! We have %d voters!!\n", subm_voters);
 
     // The list of the presidents with their ids and names
     // free(voter);
@@ -79,6 +89,37 @@ void    ft_adding_voters() {
         printf("Name: %s -- ID: %s\n", voter[i].name, voter[i].cin);
     }
 }
+
+void    ft_colvotes() {
+    int i,j;
+    int *stock;
+
+    printf("\nTime for collecting votes!\n");
+    printf("--------------------------\n");
+    printf("\nChoose from the list below!!\n                         [WARNING]: MAKE SURE TO CHECK YOUR ANSWER BEFORE SUBMITING!\n");
+    for (i = 0; i < global_n_pres; i++) {
+        printf("NAME: %s -- ID: %d\n", president[i].name, i);    
+    }
+    printf("----------------------------");
+    printf("\n");
+
+    for (i = 0; i < global_n_voters; i++)
+    {
+        printf("Voter: %s with CIN: %s - Which president you choose ?\n", voter[i].name, voter[i].cin);
+        scanf("%d", &voter[i].vote);
+        stock = &voter[i].vote;
+        president[*stock].votec++;
+    }
+    printf("VOTE SUCCEEDED!\n");    
+}
+
+ void   ft_firsttour()
+ {
+     int i, j;
+
+     
+ }
+
 
 /* int    ft_isalpha(char *s)
 {
@@ -136,5 +177,8 @@ int	main() {
     ft_adding_presidents();
     printf("------------------------\n");
     ft_adding_voters();
+    printf("\n");
+    printf("---------------------------");
+    ft_colvotes();
     return 0;
 }
