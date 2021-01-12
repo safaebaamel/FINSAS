@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
 int global_n_pres, global_n_voters;
 float voting_pourc;
-// vote*100/global_n_pres >= 15
+// vote*100/global_n_pres >= 15 
 
 typedef struct votemachine{
     char tab[10];
@@ -30,7 +31,7 @@ typedef struct voters {
 struct voters voter[20];
 
 void    ft_adding_presidents() {
-    int subm_pres, i;
+    int subm_pres, i,j;
 
     do {
         printf("Please make sure to put a number greater than or equal to 5\n");
@@ -46,6 +47,11 @@ void    ft_adding_presidents() {
     }
     global_n_pres = subm_pres;
     // global_n_pres = subm_pres;
+
+    // status == 1 from first tour
+    for (j = 0; j < global_n_pres; i++) {
+        president[i].status = 1;
+    }
 
     printf("This year!! We have %d nominees!!\n", subm_pres);
     printf("Good luck for you all :)!\n");
@@ -93,6 +99,15 @@ void    ft_adding_voters() {
     }
 }
 
+void    ft_freevotes(int i) {
+
+    for (i = 0; i < global_n_pres; i++) {
+            president[i].votec = 0;
+            president[i].status = 1;
+    }
+}
+
+
 void    ft_colvotes() {
     int i,j;
     int *stock;
@@ -101,7 +116,9 @@ void    ft_colvotes() {
     printf("--------------------------\n");
     printf("\nChoose from the list below!!\n                         [WARNING]: MAKE SURE TO CHECK YOUR ANSWER BEFORE SUBMITING!\n");
     for (i = 0; i < global_n_pres; i++) {
-        printf("NAME: %s -- ID: %d\n", president[i].name, i);    
+        if (president[i].status == 1) {
+            printf("NAME: %s -- ID: %d\n", president[i].name, i);
+        }
     }
     printf("----------------------------");
     printf("\n");
@@ -128,29 +145,46 @@ void    ft_colvotes() {
     for (i = 0; i global_n_pres; i++) { 
         if (president[i].votec == (global_n_voters/global_n_pres)) {
                 check++;
-        }
+        } // 0 will pass!! 1 is eliminated!!! :) 
     }
-    if (check == global_n_pres) {
-        printf("[|POURCENTAGE OF VOTES ARE EQUAL|]\n");
+    if (check == global_n_pres) { // testing if they all have the same pourcentage of vote!!
+        printf("[|POURCENTAGES OF VOTES ARE EQUAL|]\n");
         return;
     }
 
     for (i = 0; i < global_n_pres; i++) {
         if (voting_pourc >= 15) {
-            president[i].status = 1;
+            president[i].status = 0;
             printf("\nCongrats for the president: %s with the ID: %d\nSee you in round 2!\n", president[i].name, i);
         } else {
             printf("\nSorry, try next time\n");
-            president[i].status = 0;
+            president[i].status = 1;
         } 
     }
  }
 
-void    ft_secondtour()
+void    ft_minfunct() 
 {
     int i;
 
+    for (i = 0; i < global_n_pres; i++) {
+        if (president[i].status == 1) {
+            strcmp(president[i].votec, president[i+1].votec);
+        }
+    }
+}
+
+
+void    ft_secondtour()
+{
+    int i;
     
+    printf("Welcome to the second tour!\n");
+    printf("The new list of the nominees\n, name:%s\t Id:%d\t", president[i].name, i);
+    printf("-------------------------------\n");
+    ft_freevotes();
+    ft_colvotes();
+
 }
 
 
@@ -170,31 +204,67 @@ void    ft_secondtour()
 void interfacedelapp(){
 
 
-printf("************************************************************************************************************** *\n");
-printf("* ************************************************************************************************************ *\n");
-printf("* * YOUCODE                                                                                      Safae Baamel* *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                    WELCOME TO THE E-VOTING APPLICATION                                   * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                          PROJECT END OF SAS                                              * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                                :)                                                        * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                       ==============================                                     * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                                 C IS FUN :)                                              * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                       ==============================                                     * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* *                                                                                                          * *\n");
-printf("* ************************************************************************************************************ *\n");
-printf("************************************************************************************************************** *\n");
+    printf("************************************************************************************************************** *\n");
+    printf("* ************************************************************************************************************ *\n");
+    printf("* * YOUCODE                                                                                      Safae Baamel* *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                    WELCOME TO THE E-VOTING APPLICATION                                   * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                          PROJECT END OF SAS                                              * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                                :)                                                        * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *              1)                                2)                            3)                          * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                       ==============================                                     * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                                 C IS FUN :)                                              * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                       ==============================                                     * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* *                                                                                                          * *\n");
+    printf("* ************************************************************************************************************ *\n");
+    printf("************************************************************************************************************** *\n");
+
+    print("Go ahead and choose one of the above\n");
+    
+    switch (expression)
+    {
+    case 1: 
+        printf("Adding Presidents");
+        ft_adding_presidents();
+        break;
+    case 2:
+        printf("Adding Voters");
+        ft_adding_voters();
+        break;
+    case 3:
+        printf("Collecting Votes");
+        ft_colvotes();
+        break;
+    case 4:
+        printf("First Tour");
+        ft_firsttour();
+        break;
+    case 5:
+        printf("Second Tour");
+        ft_secondtour();
+        break;
+    case 6: 
+        printf("Last Tour");
+        ft_thirdtour();
+        break;
+    default: 
+        printf("ERROR!! try again later!!");
+        break;
+    }
+
+
+
 }
 
 int	main() {
@@ -213,6 +283,9 @@ int	main() {
     printf("\n");
     printf("---------------------------");
     ft_colvotes();
+    printf("---------------------------");
+    printf("\n");
+    ft_firsttour();
     printf("---------------------------");
     printf("\n");
 
