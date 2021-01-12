@@ -104,7 +104,6 @@ void    ft_freevotes() {
 
     for (i = 0; i < global_n_pres; i++) {
             president[i].votec = 0;
-            president[i].status = 1;
     }
 }
 
@@ -143,7 +142,7 @@ void    ft_colvotes() {
     
     voting_pourc = (president[i].votec * 100) / global_n_pres;
     // calculating the pourcentage of the vote in each 
-    for (i = 0; i < global_n_pres; i++) { 
+    for (i = 0; i < global_n_pres; i++) {
         if (president[i].votec == (global_n_voters/global_n_pres)) {
                 check++;
         } // 0 will pass!! 1 is eliminated!!! :) 
