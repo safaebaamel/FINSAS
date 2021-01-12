@@ -99,7 +99,8 @@ void    ft_adding_voters() {
     }
 }
 
-void    ft_freevotes(int i) {
+void    ft_freevotes() {
+    int i = 0;
 
     for (i = 0; i < global_n_pres; i++) {
             president[i].votec = 0;
@@ -142,7 +143,7 @@ void    ft_colvotes() {
     
     voting_pourc = (president[i].votec * 100) / global_n_pres;
     // calculating the pourcentage of the vote in each 
-    for (i = 0; i global_n_pres; i++) { 
+    for (i = 0; i < global_n_pres; i++) { 
         if (president[i].votec == (global_n_voters/global_n_pres)) {
                 check++;
         } // 0 will pass!! 1 is eliminated!!! :) 
@@ -163,17 +164,22 @@ void    ft_colvotes() {
     }
  }
 
-void    ft_minfunct() 
+void    ft_minfunct() //get the min pres to be eliminated
 {
     int i;
 
     for (i = 0; i < global_n_pres; i++) {
         if (president[i].status == 1) {
-            strcmp(president[i].votec, president[i+1].votec);
+           // strcmp(president[i].votec, president[i+1].votec);
         }
     }
 }
 
+void    ft_maxfunct() { // get the max pres to win :)!!
+    int i;
+
+
+}
 
 void    ft_secondtour()
 {
@@ -187,7 +193,10 @@ void    ft_secondtour()
 
 }
 
+void    ft_thirdtour() {
+    int i;
 
+}
 /* int    ft_isalpha(char *s)
 {
     int i = 0;
@@ -203,6 +212,7 @@ void    ft_secondtour()
 
 void interfacedelapp(){
 
+    int expression;
 
     printf("************************************************************************************************************** *\n");
     printf("* ************************************************************************************************************ *\n");
@@ -230,8 +240,8 @@ void interfacedelapp(){
     printf("* ************************************************************************************************************ *\n");
     printf("************************************************************************************************************** *\n");
 
-    print("Go ahead and choose one of the above\n");
-    
+    printf("Go ahead and choose one of the above\n");
+
     switch (expression)
     {
     case 1: 
@@ -260,11 +270,9 @@ void interfacedelapp(){
         break;
     default: 
         printf("ERROR!! try again later!!");
+        return;
         break;
     }
-
-
-
 }
 
 int	main() {
