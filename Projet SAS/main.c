@@ -135,9 +135,9 @@ void    ft_colvotes() {
  void   ft_firsttour()
  {
     // in this function, we'll go through all the votes, calculate those with less than 15% of the total votes
-    int i, check;
+    int i, j, check;
 
-    check = 0;
+    check , j = 0;
     
     // voting_pourc = (president[i].votec * 100) / global_n_pres;
     // calculating the pourcentage of the vote in each 
@@ -154,13 +154,18 @@ void    ft_colvotes() {
     for (i = 0; i < global_n_pres; i++) {
         if ((president[i].votec * 100) / global_n_pres >= 15) {
             president[i].status = 0;
+            j++;
             printf("\nCongrats for the president: %s with the ID: %d\nSee you in round 2!\n", president[i].name, i);
         } else {
             printf("\nnominee %s :Sorry, try next time\n", president[i].name);
             president[i].status = 1;
         } 
     }
-    
+    // no next step if n_of_nominees is less than 3
+    if (j < 3) {
+        printf("[Oups]: We're sorry but you got to re-insert the votes!! We cannot continue with less than 3 nominees\n");
+        return;
+    }
  }
 
 void    ft_minfunct() //get the min pres to be eliminated
