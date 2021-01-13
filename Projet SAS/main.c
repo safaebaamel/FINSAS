@@ -257,14 +257,17 @@ void getWinner()
     pw = &president[0];
     ft_freevotes();
     for (i = 0; i < global_n_pres; i++) {
-        if (president[i].votec > pw->votec && president[i].status == 0) {
-            pw = &president[i];
+        if (president[i].status == 0) {
+            if (president[i].votec > pw->votec) {
+                pw = &president[i];
+            }
         }
     }
+    president[pw->votec].status = 4;
     for (i = 0; i < global_n_pres; i++) {
-        if (president[i].votec == pw->votec && president[i].status == 0)
+        if (president[i].votec == pw->votec && president[i].status == 4)
         {
-            printf("The winner is: %s with the ID: %d", president[i].name, i);
+            printf("The winner is: %s\n", president[i].name);
         }
     } 
 }
@@ -306,25 +309,22 @@ void    ft_secondtour()
     
     printf("-------------------------\n");
     // new list of presids
-    for (i = 0; i < global_n_pres; i++) {
+    /* for (i = 0; i < global_n_pres; i++) {
          if (president[i].status == 0) {
              printf("\nName: %s -- ID: %d", president[i].name, i);
          }
-    }
+    } */
 }
 
 void    ft_thirdtour() {
     int i;
 
     printf("Welcome to the third tour!\n");
-    printf("The new list of the nominees\n");
     printf("\n-------------------------------\n");
     // ft_freevotes();
     // ft_colvotes3();
     getWinner();
     printf("\n-------------------------\n");
-   
-   
 }
 
 void interfacedelapp(){
