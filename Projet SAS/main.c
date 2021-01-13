@@ -102,10 +102,17 @@ void    ft_freevotes() {
     int i = 0;
 
     for (i = 0; i < global_n_pres; i++) {
-            president[i].votec = 0;
+            president[i].votec = 0; 
     }
 }
 
+void    ft_free_elim() {
+    int i = 0;
+
+    for (i = 0; i < global_n_pres; i++) {
+        president[i].status = 0;
+    }
+}
 
 void    ft_colvotes() {
     int i,j;
@@ -132,12 +139,39 @@ void    ft_colvotes() {
     printf("VOTE SUCCEEDED!\n");    
 }
 
- void   ft_firsttour()
+void    ft_colvotes2() {
+    int i,j;
+    int *stock;
+
+    ft_freevotes();
+    printf("\nTime for collecting votes 2!\n");
+    printf("--------------------------\n");
+    printf("\nChoose from the list below!!\n");
+    for (i = 0; i < global_n_pres; i++) {
+        if (president[i].status == 0) {
+            printf("NAME: %s -- ID: %d\n", president[i].name, i);
+        }
+    }
+    printf("----------------------------");
+    printf("\n");
+
+    for (i = 0; i < global_n_voters; i++)
+    {
+        printf("Voter: %s with CIN: %s - Which president you choose ?\n", voter[i].name, voter[i].cin);
+        scanf("%d", &voter[i].vote);
+        stock = &voter[i].vote;
+        president[*stock].votec++;
+    }
+    printf("VOTE SUCCEEDED!\n");  
+}
+
+void   ft_firsttour()
  {
     // in this function, we'll go through all the votes, calculate those with less than 15% of the total votes
     int i, j, check;
 
-    check , j = 0;
+    check = 0;
+    j = 0;
     
     // voting_pourc = (president[i].votec * 100) / global_n_pres;
     // calculating the pourcentage of the vote in each 
@@ -161,40 +195,50 @@ void    ft_colvotes() {
             president[i].status = 1;
         } 
     }
-    // no next step if n_of_nominees is less than 3
+    /* no next step if n_of_nominees is less than 3
     if (j < 3) {
         printf("[Oups]: We're sorry but you got to re-insert the votes!! We cannot continue with less than 3 nominees\n");
-        return;
-    }
+        ft_freevotes();
+        ft_colvotes();
+    } */
  }
-
-void    ft_minfunct() //get the min pres to be eliminated
-{
-    int i;
-
-    for (i = 0; i < global_n_pres; i++) {
-        if (president[i].status == 1) {
-           // strcmp(president[i].votec, president[i+1].votec);
-        }
-    }
-}
-
-void    ft_maxfunct() { // get the max pres to win :)!!
-    int i;
-
-
-}
 
 void    ft_secondtour()
 {
-    int i;
+    int i, check;
     
+    check = 0;
+    char *pr;
+
+    for (i = 0; i < global_n_pres; i++) {
+        if ((president[i].votec == (global_n_voters/global_n_pres)) && president[i] == 0) {
+                check++;
+        } // :)
+    }
+    if (check == global_n_pres) { // testing if they all have the same pourcentage of vote!!
+        printf("[|POURCENTAGES OF VOTES ARE EQUAL|]\n");
+        return;
+    }
+
     printf("Welcome to the second tour!\n");
-    printf("The new list of the nominees\n, name:%s\t Id:%d\t", president[i].name, i);
+    printf("The new list of the nominees\n,");
+    for (i = 0; i < global_n_pres; i++) {
+        if (president[i].status == 0) {
+            printf("name:%s\t Id:%d\t", president[i].name, i);
+        }
+    }
     printf("-------------------------------\n");
     ft_freevotes();
-    ft_colvotes();
-
+    ft_colvotes2();
+    for (i = 0; i < global_n_pres; i++) {
+        if (president[i].votec < president[i+1].votec) {
+            pr[j] = president[i].votec;
+            president[i].votec = president[i+1].votec;
+            president[i+1].votec = pr[j];
+            // printf("\nCongrats for the president: %s with the ID: %d\nSee you in round 3!\n", president[i].name, i);
+        } 
+    }
+    president[global_n_pres - 1].status = 2; // min is gone :)!!!
 }
 
 void    ft_thirdtour() {
@@ -216,7 +260,7 @@ void    ft_thirdtour() {
 
 void interfacedelapp(){
 
-    int expression;
+    // int expression;
 
     printf("************************************************************************************************************** *\n");
     printf("* ************************************************************************************************************ *\n");
@@ -299,6 +343,9 @@ int	main() {
     printf("---------------------------");
     printf("\n");
     ft_firsttour();
+    printf("---------------------------");
+    printf("\n");
+    ft_secondtour();
     printf("---------------------------");
     printf("\n");
 
