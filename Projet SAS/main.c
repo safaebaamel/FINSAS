@@ -168,6 +168,33 @@ void    ft_colvotes2() {
     printf("VOTE SUCCEEDED!\n");  
 }
 
+void    ft_colvotes3() {
+    int i,j;
+    int *stock;
+
+    ft_freevotes();
+    printf("\nTime for collecting votes 3!\n");
+    printf("--------------------------\n");
+    printf("\nChoose from the list below!!\n");
+    printf("\n----------------------------\n");
+    for (i = 0; i < global_n_pres; i++) {
+        if (president[i].status == 0) {
+            printf("NAME: %s -- ID: %d\n", president[i].name, i);
+        }
+    }
+    printf("\n----------------------------\n");
+    printf("\n");
+
+    for (i = 0; i < global_n_voters; i++)
+    {
+        printf("Voter: %s with CIN: %s - Which president you choose ?\n", voter[i].name, voter[i].cin);
+        scanf("%d", &voter[i].vote);
+        stock = &voter[i].vote;
+        president[*stock].votec++;
+    }
+    printf("VOTE SUCCEEDED!\n");  
+}
+
 void   ft_firsttour()
  {
     // in this function, we'll go through all the votes, calculate those with less than 15% of the total votes
@@ -209,7 +236,7 @@ void   ft_firsttour()
 int getLoser(){
     int i=0,min=INT_MAX;
     for(;i<global_n_pres;i++){
-        if(president[i].votec > min)
+        if(president[i].votec > min && president[i].status == 1)
             min = i;
     }
     return i;
@@ -281,24 +308,17 @@ void    ft_thirdtour() {
     }
     printf("\n-------------------------------\n");
     ft_freevotes();
-    ft_colvotes2();
+    ft_colvotes3();
     int winer= getWinner();
     president[winer].status = 3;
 
-    // president[global_n_pres].status = 2; // min is gone :)!!!
-    
-    // for(int k=0;k<global_n_pres;k++)
-        // printf("\nCongrats for the president: %s with the ID: %d\nSee you in round 3!\n", president[k].name, k);            
-    
     printf("-------------------------\n");
-    // new list of presids
+    // THE WINNER
     for (i = 0; i < global_n_pres; i++) {
          if (president[i].status == 3) {
-             printf("\nName: %s -- ID: %d", president[i].name, i);
+             printf("\nName: %s -- lID: %d", president[i].name, i);
          }
     }
-
-
 }
 
 void interfacedelapp(){
@@ -391,6 +411,7 @@ int	main() {
     ft_secondtour();
     printf("\n---------------------------");
     printf("\n");
+    ft_thirdtour();
 
     return 0;
 }
