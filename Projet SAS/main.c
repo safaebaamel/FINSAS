@@ -2,22 +2,24 @@
 #include <stdlib.h>
 #include <string.h>
 // #include <windows.h>
+#include<limits.h>
 
 int global_n_pres, global_n_voters;
 float voting_pourc;
 // vote*100/global_n_pres >= 15 
 
-typedef struct votemachine{
-    char tab[10];
-    int action;
-} votemachine;
+// typedef struct votemachine{
+//     char tab[10];
+//     int action;
+// } votemachine;
 
 typedef struct presidents{
     int votec;
     char id[10];
     char name[20];
     int status;
-}presidents;
+    int pp;
+}presidents, temp;
 
 struct presidents president[20];
 
@@ -25,7 +27,7 @@ typedef struct voters {
     char cin[20];
     char name[20];
     int vote;
-    struct votemachine v;
+    // struct votemachine v;
 }voters;
 
 struct voters voter[20];
@@ -147,12 +149,13 @@ void    ft_colvotes2() {
     printf("\nTime for collecting votes 2!\n");
     printf("--------------------------\n");
     printf("\nChoose from the list below!!\n");
+    printf("\n----------------------------\n");
     for (i = 0; i < global_n_pres; i++) {
         if (president[i].status == 0) {
             printf("NAME: %s -- ID: %d\n", president[i].name, i);
         }
     }
-    printf("----------------------------");
+    printf("\n----------------------------\n");
     printf("\n");
 
     for (i = 0; i < global_n_voters; i++)
@@ -203,15 +206,34 @@ void   ft_firsttour()
     } */
  }
 
+int getLoser(){
+    int i=0,min=INT_MAX;
+    for(;i<global_n_pres;i++){
+        if(president[i].votec > min)
+            min = i;
+    }
+    return i;
+}
+
+int getWinner(){
+    int i=0,max=0;
+    for(;i<global_n_pres;i++){
+        if(president[i].votec < max)
+            max = i;
+    }
+    return i;
+}
+ 
 void    ft_secondtour()
 {
-    int i, check;
+    int i,j, check, min,pp;
     
+    j = 0;
     check = 0;
-    char *pr;
+    int pr;
 
     for (i = 0; i < global_n_pres; i++) {
-        if ((president[i].votec == (global_n_voters/global_n_pres)) && president[i] == 0) {
+        if ((president[i].votec == (global_n_voters/global_n_pres)) && president[i].status == 0) {
                 check++;
         } // :)
     }
@@ -224,39 +246,60 @@ void    ft_secondtour()
     printf("The new list of the nominees\n,");
     for (i = 0; i < global_n_pres; i++) {
         if (president[i].status == 0) {
-            printf("name:%s\t Id:%d\t", president[i].name, i);
+            printf("\nname:%s\t Id:%d\t", president[i].name, i);
         }
     }
-    printf("-------------------------------\n");
+    printf("\n-------------------------------\n");
     ft_freevotes();
     ft_colvotes2();
+    int loser= getLoser();
+    president[loser].status = 1;
+
+    // president[global_n_pres].status = 2; // min is gone :)!!!
+    
+    // for(int k=0;k<global_n_pres;k++)
+        // printf("\nCongrats for the president: %s with the ID: %d\nSee you in round 3!\n", president[k].name, k);            
+    
+    printf("-------------------------\n");
+    // new list of presids
     for (i = 0; i < global_n_pres; i++) {
-        if (president[i].votec < president[i+1].votec) {
-            pr[j] = president[i].votec;
-            president[i].votec = president[i+1].votec;
-            president[i+1].votec = pr[j];
-            // printf("\nCongrats for the president: %s with the ID: %d\nSee you in round 3!\n", president[i].name, i);
-        } 
+         if (president[i].status == 0) {
+             printf("\nName: %s -- ID: %d", president[i].name, i);
+         }
     }
-    president[global_n_pres - 1].status = 2; // min is gone :)!!!
 }
 
 void    ft_thirdtour() {
     int i;
 
-}
-/* int    ft_isalpha(char *s)
-{
-    int i = 0;
-
-    while (s[i++] != '\0') 
-    {
-        if ((s[i] >= 'A' && s[i] <= 'Z') || (s[i]<= 'z' && s[i] >= 'a')) 
-            return 1;
-        else
-            return 0;
+    printf("Welcome to the third tour!\n");
+    printf("The new list of the nominees\n,");
+    for (i = 0; i < global_n_pres; i++) {
+        if (president[i].status == 0) {
+            printf("\nname:%s\t Id:%d\t", president[i].name, i);
+        }
     }
-} */
+    printf("\n-------------------------------\n");
+    ft_freevotes();
+    ft_colvotes2();
+    int winer= getWinner();
+    president[winer].status = 3;
+
+    // president[global_n_pres].status = 2; // min is gone :)!!!
+    
+    // for(int k=0;k<global_n_pres;k++)
+        // printf("\nCongrats for the president: %s with the ID: %d\nSee you in round 3!\n", president[k].name, k);            
+    
+    printf("-------------------------\n");
+    // new list of presids
+    for (i = 0; i < global_n_pres; i++) {
+         if (president[i].status == 3) {
+             printf("\nName: %s -- ID: %d", president[i].name, i);
+         }
+    }
+
+
+}
 
 void interfacedelapp(){
 
@@ -346,7 +389,7 @@ int	main() {
     printf("---------------------------");
     printf("\n");
     ft_secondtour();
-    printf("---------------------------");
+    printf("\n---------------------------");
     printf("\n");
 
     return 0;
