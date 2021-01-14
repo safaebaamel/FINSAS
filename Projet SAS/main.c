@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <windows.h>
+
 
 int global_n_pres, global_n_voters;
 float voting_pourc;
@@ -17,7 +16,7 @@ typedef struct presidents{
     char id[10];
     char name[20];
     int status;
-    int pp;
+    // int pp;
 }presidents, temp;
 
 struct presidents president[20];
@@ -47,7 +46,6 @@ void    ft_adding_presidents() {
         printf("The ID of the president: %d\n", i);
     }
     global_n_pres = subm_pres;
-    // global_n_pres = subm_pres;
 
     printf("---------------------------------\n");
     printf("This year!! We have %d nominees!!\n", subm_pres);
@@ -356,41 +354,6 @@ void interfacedelapp(){
     printf("* *                                                                                                          * *\n");
     printf("* ************************************************************************************************************ *\n");
     printf("************************************************************************************************************** *\n");
-/*
-    printf("Go ahead and choose one of the above\n");
-
-    switch (expression)
-    {
-    case 1: 
-        printf("Adding Presidents");
-        ft_adding_presidents();
-        break;
-    case 2:
-        printf("Adding Voters");
-        ft_adding_voters();
-        break;
-    case 3:
-        printf("Collecting Votes");
-        ft_colvotes();
-        break;
-    case 4:
-        printf("First Tour");
-        ft_firsttour();
-        break;
-    case 5:
-        printf("Second Tour");
-        ft_secondtour();
-        break;
-    case 6: 
-        printf("Last Tour");
-        ft_thirdtour();
-        break;
-    default: 
-        printf("ERROR!! try again later!!");
-        return;
-        break;
-    }
-    */
 }
 
 int	main() 
